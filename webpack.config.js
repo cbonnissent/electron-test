@@ -15,7 +15,7 @@ const common = {
     app: PATHS.app
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js']
   },
   module: {
     loaders: [
@@ -25,16 +25,35 @@ const common = {
         include: PATHS.app
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js?$/,
         loader: 'babel',
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015']
         },
         include: PATHS.app
+      },
+      {
+        test: /\.less/,
+        loaders: ['style', 'css', 'less'],
+        include: PATHS.app
       }
     ]
-  }
+  },
+  externals: [
+    (function () {
+      var IGNORES = [
+        'electron',
+        'fs'
+      ];
+      return function (context, request, callback) {
+        if (IGNORES.indexOf(request) >= 0) {
+          return callback(null, "require('" + request + "')");
+        }
+        return callback();
+      };
+    })()
+  ]
 };
 
 if (TARGET === 'prod' || !TARGET) {

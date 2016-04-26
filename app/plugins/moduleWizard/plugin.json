@@ -1,0 +1,7 @@
+{
+  "name": "moduleWizard",
+  "activity": "Création d'un module",
+  "mainWidget": "components/wizard",
+  "categorie": null,
+  "default": true
+}
